@@ -18,7 +18,7 @@ export default function LoanForm({loanType }) {
   }, [loanType]);
 
   return (
-    <section id="loanform" className="min-h-screen pt-0 bg-gray-50 flex items-center justify-center">
+    <section id="loanform" className="min-h-screen mt-0 bg-gray-50 flex items-center justify-center">
       <motion.form
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -30,7 +30,7 @@ export default function LoanForm({loanType }) {
           Apply for Your Loan
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
           <div>
             <label className="block mb-1">Full Name</label>
             <input
