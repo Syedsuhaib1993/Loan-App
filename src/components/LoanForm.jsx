@@ -1,9 +1,13 @@
 // src/components/LoanForm.jsx
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import axios from 'axios';
 
-export default function LoanForm({loanType }) {
+export default function LoanForm({loanType,setToast }) {
   // Track the slider value in state
+  const [name,setName] = useState('')
+  const [email,setEmail]= useState('')
+  const [phone,setPhone]= useState('')
   const [loanAmount, setLoanAmount] = useState(50000);
    const [selectedLoanType, setSelectedLoanType] = useState('');
   const [highlight, setHighlight] = useState(false);
@@ -16,9 +20,40 @@ export default function LoanForm({loanType }) {
       setTimeout(() => setHighlight(false), 1000);
     }
   }, [loanType]);
+  const handleForm=async(e)=>{
+    e.preventDefault()
+      try {
+      const response = await axios.post('http://localhost:8080/api/form', {
+        name,
+        email,
+        phone,
+        amount: loanAmount,
+        type: selectedLoanType
+      });
 
+      console.log(response);
+      if (setToast) {
+        setToast({ message: 'Loan Application Submitted Successfully!', type: 'success' });
+        setTimeout(() => setToast({ message: '', type: '' }), 3000);
+      }
+
+      // Reset form
+      setName('');
+      setEmail('');
+      setPhone('');
+      setLoanAmount(50000);
+      setSelectedLoanType('');
+
+    } catch (error) {
+      console.log(error.message);
+      if (setToast) {
+        setToast({ message: 'Error submitting application!', type: 'error' });
+        setTimeout(() => setToast({ message: '', type: '' }), 3000);
+      }
+    }
+  }
   return (
-    <section id="loanform" className="min-h-screen mt-0 bg-gray-50 flex items-center justify-center">
+    <section onSubmit={handleForm} id="loanform" className="min-h-screen  bg-gray-50 flex mt-2  justify-center">
       <motion.form
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -28,7 +63,7 @@ export default function LoanForm({loanType }) {
       >
         <h2 className="text-3xl font-bold mb-6 text-[#12565F] text-center">
           Apply for Your Loan
-        </h2>
+        </h2> 
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
           <div>
@@ -38,6 +73,8 @@ export default function LoanForm({loanType }) {
               type="text"
               placeholder="Your name"
               required
+              value={name}
+              onChange={(e)=>setName(e.target.value)}
             />
           </div>
           <div>
@@ -47,15 +84,19 @@ export default function LoanForm({loanType }) {
               type="email"
               placeholder="Your email"
               required
+              value={email}
+              onChange={(e)=>setEmail(e.target.value)}
             />
           </div>
           <div>
             <label className="block mb-1">Phone</label>
             <input
               className="w-full p-3 border rounded"
-              type="tel"
+              type="text"
               placeholder="Your phone number"
               required
+              value={phone}
+              onChange={(e)=>setPhone(e.target.value)}
             />
           </div>
 
@@ -99,7 +140,8 @@ export default function LoanForm({loanType }) {
         </div>
 
         <div className="mb-6">
-          <label className="block mb-1">Additional Message</label>
+          <label className="block mb-1">Additional Message <spam className="text-[#12565F] font-bold">(Optional)</spam>
+          </label>
           <textarea
             className="w-full p-3 border rounded"
             rows="2"

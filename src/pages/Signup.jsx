@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 
-export default function Signup({ setToastMessage }) {
+export default function Signup({ setToast, }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -19,14 +19,19 @@ export default function Signup({ setToastMessage }) {
             password
         })
         console.log(response.data.message);
-        setToastMessage('Signup Successful!');
+         if (setToast) {
+        setToast({ message: 'Signup Successful!!', type: 'success' });
+        setTimeout(() => setToast({ message: '', type: '' }), 3000);
         setTimeout(() => navigate('/login'), 2000);
+      }
         
     } catch (error) {
-       setToastMessage(error.message);
+         if (setToast) {
+        setToast({ message: 'Signup Failed!!', type: 'error' });
+        setTimeout(() => setToast({ message: '', type: '' }), 3000);
+      }
         
     }
-    // Here you can add actual signup logic.
     
   };
 

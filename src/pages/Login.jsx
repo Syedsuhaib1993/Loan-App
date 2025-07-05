@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 
-export default function Login({ setToastMessage }) {
+export default function Login({ setToast, }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -18,11 +18,17 @@ export default function Login({ setToastMessage }) {
         })
         console.log(response.data.data);
         localStorage.setItem('token',response.data.data)
-        setToastMessage('Login Successful!');
+         if (setToast) {
+        setToast({ message: 'Login Successfully!', type: 'success' });
+        setTimeout(() => setToast({ message: '', type: '' }), 3000);
         setTimeout(() => navigate('/'), 2000);
+      }
 
     } catch (error) {
-       setToastMessage(error.message); 
+       if (setToast) {
+        setToast({ message: ' Login Failed!', type: 'error' });
+        setTimeout(() => setToast({ message: '', type: '' }), 3000);
+      }
     }
    
   };

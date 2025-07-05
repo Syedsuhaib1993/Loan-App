@@ -4,7 +4,7 @@ import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { CiBank } from "react-icons/ci";
 
-export default function Navbar({ setToastMessage }) {
+export default function Navbar({ setToast }) {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const [logintoken, setLogintoken] = useState(null);
@@ -30,8 +30,11 @@ export default function Navbar({ setToastMessage }) {
     // If you have a local auth state, clear it:
     localStorage.removeItem("token");
     setLogintoken(null);
-    if (setToastMessage) setToastMessage("Logged out successfully!");
-    navigate("/login");
+     if (setToast) {
+        setToast({ message: 'Logout Successful!!', type: 'success' });
+        setTimeout(() => setToast({ message: '', type: '' }), 3000);
+        setTimeout(() => navigate('/login'), 2000);
+      }
   };
 
   return (

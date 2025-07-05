@@ -13,13 +13,14 @@ import Authroutes from "./routes/Authroutes";
 import PublicRoutes from "./routes/PublicRoutes";
 
 export default function App() {
+  const [toast, setToast] = useState({ message: '', type: '' });
   const [loanType, setLoanType] = useState("");
-  const [toastMessage, setToastMessage] = useState("");
+  
 
   const handleSetLoanType = (type) => {
     setLoanType(type);
-    setToastMessage(`Loan type set to ${type}!`);
-    setTimeout(() => setToastMessage(""), 3000);
+    setToast(`Loan type set to ${type}!`);
+    setTimeout(() => setToast(""), 3000);
   };
 
   return (
@@ -31,13 +32,13 @@ export default function App() {
               path="/"
               element={
                 <>
-                  <Navbar setToastMessage={setToastMessage} />
+                  <Navbar setToast={setToast} />
                   <main className="pt-10">
                     <Home />
                     <AboutUs />
                     <Services setLoanType={handleSetLoanType} />
-                    <LoanForm loanType={loanType} />
                   </main>
+                  <LoanForm loanType={loanType} setToast={setToast}/>
                   <Footer />
                 </>
               }
@@ -48,24 +49,37 @@ export default function App() {
             <Route
               path="/signup"
               element={<>
-              <Navbar setToastMessage={setToastMessage} />
-              <Signup setToastMessage={setToastMessage} /></>}             
+              <Navbar setToast={setToast}  />
+              <Signup setToast={setToast}  />
+              </>}             
             />
             <Route
               path="/login"
-              element={<><Navbar setToastMessage={setToastMessage} />
-              <Login setToastMessage={setToastMessage} />
+              element={<><Navbar setToast={setToast} />
+              <Login setToast={setToast}  />
               </>
              }
             />
           </Route>
         </Routes>
 
-        {toastMessage && (
-          <div className="fixed bottom-8 right-8 bg-[#15A08D] text-white px-4 py-3 rounded shadow-lg animate-fade-in-out">
-            {toastMessage}
-          </div>
-        )}
+       {toast.message && (
+  <div
+    className={`fixed bottom-8 right-8 flex items-center gap-2 px-4 py-3 rounded shadow-lg animate-fade-in-out transition
+      ${toast.type === 'success' ? 'bg-green-600' : 'bg-red-600'} text-white`}
+  >
+    {toast.type === 'success' ? (
+      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+      </svg>
+    ) : (
+      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    )}
+    <span>{toast.message}</span>
+  </div>
+)}
       </div>
     </BrowserRouter>
   );
