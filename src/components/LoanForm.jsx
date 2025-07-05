@@ -18,13 +18,13 @@ export default function LoanForm({loanType }) {
   }, [loanType]);
 
   return (
-    <section id="loanform" className="min-h-screen p-12 bg-gray-50 flex items-center justify-center">
+    <section id="loanform" className="min-h-screen pt-0 bg-gray-50 flex items-center justify-center">
       <motion.form
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 1 }}
-        className="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl"
+        className="bg-white px-8 py-2 rounded-lg shadow-lg w-full max-w-2xl"
       >
         <h2 className="text-3xl font-bold mb-6 text-[#12565F] text-center">
           Apply for Your Loan

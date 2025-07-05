@@ -12,7 +12,7 @@ export default function AboutUs() {
   ];
 
   return (
-    <section id="aboutus" className="min-h-screen px-8 py-16 bg-gradient-to-br text-white from-[#15A08D] to-[#0D1A3D] flex flex-col items-center">
+    <section id="aboutus" className="min-h-screen px-8  py-16 bg-gradient-to-br text-white from-[#15A08D] to-[#0D1A3D] flex flex-col items-center">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
