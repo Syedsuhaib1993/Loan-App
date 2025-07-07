@@ -16,8 +16,10 @@ export default function Login({ setToast, }) {
             email: email,
             password: password
         })
-        console.log(response.data.data);
+        console.log(response.data.user);
         localStorage.setItem('token',response.data.data)
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+
          if (setToast) {
         setToast({ message: 'Login Successfully!', type: 'success' });
         setTimeout(() => setToast({ message: '', type: '' }), 3000);

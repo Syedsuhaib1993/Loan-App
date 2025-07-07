@@ -144,7 +144,7 @@ export default function Admin() {
         <div className="w-full md:w-2/5 flex flex-col gap-8 bg-white">
           {/* Pie Chart */}
           <div className="bg-white p-4 w-full rounded shadow">
-            <h2 className="text-xl font-bold mb-4">Monthly Limit</h2>
+            <h2 className="text-xl text-center font-bold mb-4">Monthly Limit</h2>
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
                 <Pie
@@ -172,7 +172,7 @@ export default function Admin() {
 
           {/* Bar Chart */}
           <div className="bg-white w-full p-6 rounded shadow">
-            <h2 className="text-xl font-bold mb-4">Approved by Loan Type</h2>
+            <h2 className="text-xl text-center font-bold mb-4">Approved by Loan Type</h2>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={barData} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
                 <defs>
