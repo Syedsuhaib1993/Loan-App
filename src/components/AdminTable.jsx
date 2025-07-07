@@ -85,10 +85,11 @@ export default function AdminTable({
                   <FaEdit
                     className="text-yellow-500 cursor-pointer hover:text-yellow-600"
                     onClick={() => {
-                      const newAmount = prompt("Enter new amount:");
-                      if (newAmount) {
-                        onEdit(app._id, Number(newAmount));
-                      }
+                    //   const newAmount = prompt("Enter new amount:");
+                    //   if (newAmount) {
+                    //     onEdit(app._id, Number(newAmount));
+                    //   }
+                    onEdit(app._id, app.amount)
                     }}
                   />
                 )}
