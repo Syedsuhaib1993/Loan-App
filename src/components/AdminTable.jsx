@@ -61,7 +61,6 @@ export default function AdminTable({
                   <FaCheckCircle
                     onClick={() => {
                       onApprove(app._id);
-                      showToast("Approved successfully!");
                     }}
                     size={18}
                     className={`text-green-600 ${app.status==='Approved'? 'hidden':"block" } cursor-pointer hover:scale-110 transition`}
@@ -73,7 +72,6 @@ export default function AdminTable({
                   <FaCheckCircle
                     onClick={() => {
                       onEdit(app._id, newAmount);
-                      showToast("Amount updated!");
                       showToast("");
                       setEditingId(null);
                     }}
@@ -120,7 +118,6 @@ export default function AdminTable({
               <button
                 onClick={() => {
                   onDelete(confirmDeleteId);
-                  showToast("Application deleted!");
                   setConfirmDeleteId(null);
                 }}
                 className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-500"

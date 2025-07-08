@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import AdminTable from "../components/AdminTable";
+import AdminLoanForm from "../components/AdminLoanForm";
 import {
   PieChart,
   Pie,
@@ -19,12 +20,15 @@ import EditModal from "../components/EditModal";
 export default function Admin() {
   const MONTHLY_LIMIT = 1000000;
   const [applications, setApplications] = useState([]);
-  const [toastMessage, setToastMessage] = useState("");
+  const [toast, setToast] = useState({ message: "", type: "" });
 
-   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [editId, setEditId] = useState(null);
   const [currentAmount, setCurrentAmount] = useState(50000);
-    const handleEditClick = (id, amount) => {
+
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+
+  const handleEditClick = (id, amount) => {
     setEditId(id);
     setCurrentAmount(amount);
     setIsModalOpen(true);
@@ -32,6 +36,8 @@ export default function Admin() {
 
   const handleSave = async () => {
     await handleEdit(editId, currentAmount);
+    setToast({ message: "Loan updated!", type: "success" });
+    setTimeout(() => setToast({ message: "", type: "" }), 3000);
     setIsModalOpen(false);
   };
 
@@ -50,11 +56,11 @@ export default function Admin() {
 
   const handleApprove = async (id) => {
     try {
-      await axios.patch(`http://localhost:8080/api/${id}`, { status: "Approved" });
-      setToastMessage("Application approved!");
-      setTimeout(() => {
-        setToastMessage("");
-      }, 2000);
+      await axios.patch(`http://localhost:8080/api/${id}`, {
+        status: "Approved",
+      });
+      setToast({ message: "Application approved!", type: "success" });
+      setTimeout(() => setToast({ message: "", type: "" }), 3000);
       fetchApplications();
     } catch (error) {
       console.error("Error approving:", error);
@@ -64,10 +70,8 @@ export default function Admin() {
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:8080/api/${id}`);
-      setToastMessage("Application deleted!");
-      setTimeout(() => {
-        setToastMessage("");
-      }, 2000);
+      setToast({ message: "Application deleted!", type: "success" });
+      setTimeout(() => setToast({ message: "", type: "" }), 3000);
       fetchApplications();
     } catch (error) {
       console.error("Error deleting:", error);
@@ -81,13 +85,13 @@ export default function Admin() {
       });
       setApplications((prev) =>
         prev.map((app) =>
-          app._id === id ? { ...app, amount: response.data.updatedLoan.amount } : app
+          app._id === id
+            ? { ...app, amount: response.data.updatedLoan.amount }
+            : app
         )
       );
-      setToastMessage("Application Updated!");
-      setTimeout(() => {
-        setToastMessage("");
-      }, 2000);
+      setToast({ message: "Application updated!", type: "success" });
+      setTimeout(() => setToast({ message: "", type: "" }), 3000);
     } catch (error) {
       console.error("Error updating loan:", error);
     }
@@ -120,31 +124,41 @@ export default function Admin() {
       </h1>
 
       <div className="flex flex-col md:flex-row gap-8">
-        {/* Table */}
+        {/* Table with Button */}
         <div className="w-full md:w-3/5 bg-white p-6 rounded shadow overflow-auto">
-          <h2 className="text-xl text-center font-bold mb-4">Applications</h2>
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-xl font-bold">Applications</h2>
+            <button
+              onClick={() => setIsCreateModalOpen(true)}
+              className="bg-[#10B981] text-white px-4 py-2 rounded hover:bg-[#0f8a6f]"
+            >
+              + Create Application
+            </button>
+          </div>
+
           <AdminTable
             applications={applications}
             onApprove={handleApprove}
             onDelete={handleDelete}
-            // onEdit={handleEdit}
-             onEdit={(id, amount) => handleEditClick(id, amount)}
-            showToast={setToastMessage}
+            onEdit={(id, amount) => handleEditClick(id, amount)}
           />
-            <EditModal
-        isOpen={isModalOpen}
-        amount={currentAmount}
-        setAmount={setCurrentAmount}
-        onSave={handleSave}
-        onClose={() => setIsModalOpen(false)}
-      />
+
+          <EditModal
+            isOpen={isModalOpen}
+            amount={currentAmount}
+            setAmount={setCurrentAmount}
+            onSave={handleSave}
+            onClose={() => setIsModalOpen(false)}
+          />
         </div>
 
         {/* Charts */}
-        <div className="w-full md:w-2/5 flex flex-col gap-8 bg-white">
+        <div className="w-full md:w-2/5 flex flex-col gap-8">
           {/* Pie Chart */}
           <div className="bg-white p-4 w-full rounded shadow">
-            <h2 className="text-xl text-center font-bold mb-4">Monthly Limit</h2>
+            <h2 className="text-xl text-center font-bold mb-4">
+              Monthly Limit
+            </h2>
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
                 <Pie
@@ -172,9 +186,14 @@ export default function Admin() {
 
           {/* Bar Chart */}
           <div className="bg-white w-full p-6 rounded shadow">
-            <h2 className="text-xl text-center font-bold mb-4">Approved by Loan Type</h2>
+            <h2 className="text-xl text-center font-bold mb-4">
+              Approved by Loan Type
+            </h2>
             <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={barData} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
+              <BarChart
+                data={barData}
+                margin={{ top: 20, right: 30, left: 0, bottom: 5 }}
+              >
                 <defs>
                   <linearGradient id="colorBar" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="#10B981" stopOpacity={0.8} />
@@ -197,9 +216,23 @@ export default function Admin() {
         </div>
       </div>
 
-      {toastMessage && (
-        <div className="fixed bottom-8 right-8 bg-[#10B981] text-white px-4 py-3 rounded shadow-lg animate-fade-in-out">
-          {toastMessage}
+      {toast.message && (
+        <div
+          className={`fixed bottom-8 right-8 px-4 py-3 rounded shadow-lg animate-fade-in-out
+          ${toast.type === "success" ? "bg-green-500 text-white" : "bg-red-500 text-white"}`}
+        >
+          {toast.message}
+        </div>
+      )}
+
+      {/* ✅ Create Application Modal */}
+      {isCreateModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <AdminLoanForm
+            setToast={setToast}
+            onClose={() => setIsCreateModalOpen(false)}
+            refreshList={fetchApplications}
+          />
         </div>
       )}
     </div>
