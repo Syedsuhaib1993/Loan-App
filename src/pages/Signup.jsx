@@ -34,7 +34,7 @@ export default function Signup({ setToast }) {
 
   const handleSignup = async (e) => {
     e.preventDefault();
-
+    localStorage.setItem('email',email)
     try {
       const ImgURI = new FormData();
       ImgURI.append("image", imageUri);
@@ -53,7 +53,7 @@ export default function Signup({ setToast }) {
       if (setToast) {
         setToast({ message: "Signup Successful!!", type: "success" });
         setTimeout(() => setToast({ message: "", type: "" }), 3000);
-        setTimeout(() => navigate("/login"), 2000);
+        setTimeout(() => navigate("/verify"), 2000);
       }
     } catch (error) {
       if (setToast) {

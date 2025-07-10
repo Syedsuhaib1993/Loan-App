@@ -12,7 +12,7 @@ import Login from "./pages/Login";
 import Authroutes from "./routes/Authroutes";
 import PublicRoutes from "./routes/PublicRoutes";
 import Admin from "./pages/Admin";
-
+import VerifyOTP from "./pages/VerifyOTP";
 
 export default function App() {
   const [toast, setToast] = useState({ message: "", type: "" });
@@ -66,6 +66,15 @@ export default function App() {
                 </>
               }
             />
+            <Route
+              path="/verify"
+              element={
+                <>
+                  <Navbar setToast={setToast} />
+                  <VerifyOTP setToast={setToast}/>
+                </>
+              }
+            />
           </Route>
         </Routes>
 
@@ -107,7 +116,6 @@ export default function App() {
           </div>
         )}
       </div>
-      
     </BrowserRouter>
   );
 }
