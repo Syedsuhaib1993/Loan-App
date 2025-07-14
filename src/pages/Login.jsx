@@ -12,7 +12,7 @@ export default function Login({ setToast, }) {
   const handleLogin =async (e) => {
     e.preventDefault();
     try {
-        const response = await axios.post('http://localhost:8080/api/login',{
+        const response = await axios.post(`${import.meta.env.VITE_BASE_URL || "http://localhost:8080"}/api/login`,{
             email: email,
             password: password
         })
