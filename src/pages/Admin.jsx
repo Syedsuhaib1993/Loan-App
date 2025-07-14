@@ -47,7 +47,7 @@ export default function Admin() {
 
   const fetchApplications = async () => {
     try {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/form`);
+      const res = await axios.get(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/form`);
       setApplications(res.data.loan);
     } catch (error) {
       console.error("Error fetching applications:", error);
@@ -56,7 +56,7 @@ export default function Admin() {
 
   const handleApprove = async (id) => {
     try {
-      await axios.patch(`${import.meta.env.VITE_API_URL}/api/${id}`, {
+      await axios.patch(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/${id}`, {
         status: "Approved",
       });
       setToast({ message: "Application approved!", type: "success" });
@@ -69,7 +69,7 @@ export default function Admin() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${import.meta.env.VITE_API_URL}/api/${id}`);
+      await axios.delete(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/${id}`);
       setToast({ message: "Application deleted!", type: "success" });
       setTimeout(() => setToast({ message: "", type: "" }), 3000);
       fetchApplications();
@@ -80,7 +80,7 @@ export default function Admin() {
 
   const handleEdit = async (id, newAmount) => {
     try {
-      const response = await axios.patch(`${import.meta.env.VITE_API_URL}/api/${id}`, {
+      const response = await axios.patch(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/${id}`, {
         amount: newAmount,
       });
       setApplications((prev) =>
