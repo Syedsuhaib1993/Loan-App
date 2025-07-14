@@ -34,23 +34,32 @@ export default function Signup({ setToast }) {
 
   const handleSignup = async (e) => {
     e.preventDefault();
-    localStorage.setItem('email',email)
+    localStorage.setItem("email", email);
     try {
       const ImgURI = new FormData();
       ImgURI.append("image", imageUri);
 
       const res = await axios.post(
         `${import.meta.env.VITE_API_URL || "http://localhost:8080"}/upload`,
-         ImgURI);
+        ImgURI,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
       const image = res.data.data;
 
-      const response = await axios.post(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/signup`, {
-        name,
-        email,
-        password,
-        image,
-      });
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/signup`,
+        {
+          name,
+          email,
+          password,
+          image,
+        }
+      );
 
       if (setToast) {
         setToast({ message: "Signup Successful!!", type: "success" });
