@@ -39,7 +39,9 @@ export default function Signup({ setToast }) {
       const ImgURI = new FormData();
       ImgURI.append("image", imageUri);
 
-      const res = await axios.post(`${import.meta.env.VITE_API_URL}/upload`, ImgURI);
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/upload`,
+         ImgURI);
 
       const image = res.data.data;
 
