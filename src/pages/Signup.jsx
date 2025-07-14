@@ -45,7 +45,7 @@ export default function Signup({ setToast }) {
 
       const image = res.data.data;
 
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/signup`, {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/signup`, {
         name,
         email,
         password,
