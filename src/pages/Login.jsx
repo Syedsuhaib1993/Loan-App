@@ -12,7 +12,8 @@ export default function Login({ setToast, }) {
   const handleLogin =async (e) => {
     e.preventDefault();
     try {
-        const response = await axios.post(`loan-app-backend-pi.vercel.app/api/login`,{
+      const apiUrl = "https://loan-app-backend-pi.vercel.app/api/login";
+        const response = await axios.post(apiUrl,{
             email: email,
             password: password
         })
