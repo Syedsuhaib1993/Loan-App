@@ -46,7 +46,7 @@ export default function AdminTable({
                     className="border p-1 rounded w-24"
                   />
                 ) : (
-                  `$${app.amount.toLocaleString()}`
+                 `$${Number(app.amount || 0).toLocaleString()}`
                 )}
               </td>
               <td className="py-2 px-4">
