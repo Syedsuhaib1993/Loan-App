@@ -39,11 +39,11 @@ export default function Signup({ setToast }) {
       const ImgURI = new FormData();
       ImgURI.append("image", imageUri);
 
-      const res = await axios.post("http://localhost:8080/upload", ImgURI);
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/upload`, ImgURI);
 
       const image = res.data.data;
 
-      const response = await axios.post("http://localhost:8080/api/signup", {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/signup`, {
         name,
         email,
         password,
