@@ -109,13 +109,24 @@ export default function Navbar({ setToast }) {
                 alt="avatar"
                 className="w-10 h-10 rounded-full border-2 border-yellow-400 object-cover"
               />
-              <span className="hidden md:inline">{userData.name || "User"}</span>
+              <span className="hidden md:inline">
+                {userData.name || "User"}
+              </span>
             </button>
 
             {isDropdownOpen && (
               <div className="absolute right-0 mt-2 w-auto bg-white text-black rounded shadow-lg py-2 z-50">
                 {userData.email && (
                   <p className="px-4 py-2  border-b">{userData.email}</p>
+                )}
+                {/* ✅ Admin Button */}
+                {userData._id === "68712818921d01185148102f" && (
+                  <button
+                    onClick={() => navigate("/admin")}
+                    className="w-full text-left text-blue-600 px-4 py-2 hover:bg-gray-100 border-b"
+                  >
+                    Admin Panel
+                  </button>
                 )}
                 <button
                   onClick={handleLogout}
@@ -147,7 +158,9 @@ export default function Navbar({ setToast }) {
       <div
         onClick={handleClose}
         className={`fixed inset-0 bg-black bg-opacity-50 transition-opacity duration-300 ${
-          isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+          isOpen
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
         }`}
       ></div>
 
