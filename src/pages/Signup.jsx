@@ -40,7 +40,7 @@ export default function Signup({ setToast }) {
       ImgURI.append("image", imageUri);
 
       const res = await axios.post(
-        `${import.meta.env.VITE_API_URL || "http://localhost:8080"}/upload`,
+        `${"http://localhost:8080" || import.meta.env.VITE_API_URL }/upload`,
         ImgURI,
         {
           headers: {
