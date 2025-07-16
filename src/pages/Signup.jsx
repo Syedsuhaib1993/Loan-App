@@ -17,9 +17,9 @@ export default function Signup({ setToast }) {
     if (file) {
       setImageUri(file);
       setPreview(URL.createObjectURL(file));
+     
     }
   };
-
   const handleSelect = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -38,7 +38,7 @@ export default function Signup({ setToast }) {
     try {
       const ImgURI = new FormData();
       ImgURI.append("image", imageUri);
-
+      let image = ""
       const res = await axios.post(
         `${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/upload`,
         ImgURI,
@@ -47,9 +47,9 @@ export default function Signup({ setToast }) {
             "Content-Type": "multipart/form-data",
           },
         }
-      );
-
-      const image = res.data.data;
+      );      
+       image = res.data.imageUrl;
+      console.log(image);
 
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/signup`,
