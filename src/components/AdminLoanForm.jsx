@@ -13,7 +13,7 @@ export default function AdminLoanForm({ setToast, onClose, refreshList }) {
     e.preventDefault();
 
     try {
-      await axios.post("http://localhost:8080/api/form", {
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/form`, {
         name,
         email,
         phone,
