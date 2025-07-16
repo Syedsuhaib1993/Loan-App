@@ -7,6 +7,8 @@ import LoanForm from '../components/LoanForm'
 
 const PublicRoutes = () => {
     const Auth = !!localStorage.getItem('token')
+    console.log(Auth);
+    
   return (
     Auth? <Outlet/>:<Navigate to={'/login'}/>
   )
