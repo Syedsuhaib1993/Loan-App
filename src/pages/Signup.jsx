@@ -60,7 +60,8 @@ export default function Signup({ setToast }) {
           image,
         }
       );
-
+      console.log(response);
+      
       if (setToast) {
         setToast({ message: "Signup Successful!!", type: "success" });
         setTimeout(() => setToast({ message: "", type: "" }), 3000);
@@ -68,7 +69,7 @@ export default function Signup({ setToast }) {
       }
     } catch (error) {
       if (setToast) {
-        setToast({ message: "Signup Failed!!", type: "error" });
+        setToast({ message: error.message, type: "error" });
         setTimeout(() => setToast({ message: "", type: "" }), 3000);
       }
     }
